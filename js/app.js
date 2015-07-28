@@ -1,44 +1,45 @@
 $(document).ready(function(){
-	setupQuiz(createQuiz());
+	setupQuiz(getQuestion());
 	$(".choice").click(selectAnswer);
 });
 
-function selectAnswer(){
-	var selectedItem = $(this);
-		//check answer
-		if(selectedItem.index() === questions.question.answer){
+var selectAnswer = (function(){
+	var currentIndex = 0;
+	return function(){
+			var oCurrentQuestion = getQuestion(currentIndex),
+				oNextQuestion = getQuestion(++currentIndex);
+			
+			//check answer
+			if($(this).index() === oCurrentQuestion.getAnswer()){
+				//increase score
+				//Show indicator
+			}
+			else{
+				//show indicator
+			}
+			setupQuiz(oNextQuestion);
+		};
+}());
 
-		}
-		else
-		{
+var getQuestion = (function (index){
+	var questions = [new Question("Who was the first person to journey into outer space?", ["Neil Armstrong", "Yuri Gagarin", "Buzz Aldrin", "John Glenn"], 1),
+					 new Question("What is the point thought to represent the center of a black hole?", ["Origin", "Centrality", "Core", "Singularity"], 3),
+					 new Question("What are the densest types of stars known as?", ["Neutron Stars", "Dwarf Stars", "Blue Giant", "Double Stars"], 0),
+					 new Question("Which of the following is the name for a massive steller explosion?", ["Pulsar", "Gamma-Ray Burst", "Supernova", "Aurora"], 2),
+					 new Question("What object is believed to be at the center of the Milky Way galaxy?", ["A Black Hole", "The Sun", "Earth", "Kuiper Belt"], 0)];
+		return function(index){
+			index = index || 0;
+			return questions[index];
+		};
+}());
 
-		}
-		//move to next question
-		setupQuiz(questions.next());
-}
-
-function setupQuiz(quiz){
-	var choiceList = $("#choices");
-	$("#question").text(quiz.question);
-	$(quiz.choices).each(function(index, choice){
+function setupQuiz(oQuestion){
+	var choiceList = $("#choices").empty();
+	$("#question").text(oQuestion.question);
+	$(oQuestion.choices).each(function(index, choice){
 		var listItem = $("<li>" + choice + "</li>").click(selectAnswer);
 		choiceList.append(listItem);
 	});
-}
-
-function createQuiz(){
-	var currentIndex = 0,
-		question = function(){
-			var questionArr = [new Question("Who was the first person to journey into outer space?", 1, ["Neil Armstrong", "Yuri Gagarin", "Buzz Aldrin", "John Glenn"]),
-						new Question("What is the point thought to represent the center of a black hole?",3, ["Origin", "Centrality", "Core", "Singularity"]),
-						new Question("What are the densest types of stars known as?",0, ["Neutron Stars", "Dwarf Stars", "Blue Giant", "Double Stars"]),
-						new Question("Which of the following is the name for a massive steller explosion?", 2, "Pulsar", "Gamma-Ray Burst", "Supernova", "Aurora"),
-						new Question("What object is believed to be at the center of the Milky Way galaxy?", 0, ["A Black Hole", "The Sun", "Earth", "Kuiper Belt"])];
-			currentIndex++
-			return questionArr[currentIndex - 1];
-		}
-
-	return question();
 }
 
 function slideBehavior(){
@@ -48,8 +49,10 @@ function slideBehavior(){
 	});
 }
 
-function Question(question, answer, choices){
+function Question(question, choices, answer){
 	this.question = question;
-	this.choices = choices
-	this.answer = answer;
+	this.choices = choices;
+	this.getAnswer = function(){
+		return answer;
+	};
 };
