@@ -30,13 +30,14 @@ var quiz = new function Quiz(){
 	    if (oQuestion != null) {
 	        $("#question").text(oQuestion.question);
 	        $(oQuestion.choices).each(function (index, choice) {
-	            var listItem = $("<li>" + choice + "</li>").click(selectAnswer);
+	            var listItem = $("<li>" + choice + "</li>").addClass("choice").click(selectAnswer);
 	            choiceList.append(listItem);
 	        });
 	    }
 	    else {
 	       
 	    }
+	    setupAnimation();
 	};
 
 	var selectAnswer = (function(){
@@ -82,11 +83,15 @@ function showFinalScore(){
         $("#final-score-container").show();
 }
 
-function slideBehavior(){
-	$("#question").hide().show('slide', {direction: 'right'}, 1000);
+function setupAnimation(){
+	$("#question").hide().fadeIn();
 	$("#choices").find(".choice").each(function(index,item){
-		$(item).hide().delay(100*index).show('slide', {direction: 'right'}, 1000)
+		$(item).hide().delay(100*index).fadeIn();
 	});
+	// $("#question").hide().show('slide', {direction: 'right'}, 1000);
+	// $("#choices").find(".choice").each(function(index,item){
+	// 	$(item).hide().delay(100*index).show('slide', {direction: 'right'}, 1000)
+	// });
 }
 
 
