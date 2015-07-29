@@ -78,7 +78,7 @@ h1{
 	margin: 30px auto;
 	min-width:300px;
 	cursor: pointer; 
-	/*min-height: 61px;*/
+	min-height: 61px;
 }
 
 #choices li:hover{
