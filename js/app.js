@@ -15,7 +15,7 @@ var quiz = new function Quiz(){
 
 	this.initialize = function(){
 		scoreCount = 0;
-		setupQuestion(getQuestion());
+		displayQuestion(getQuestion());
 		$("#final-score-container").hide();
 		$("#quiz-container").hide().fadeIn();
 		$("#restart-button").click(this.initialize);
@@ -28,7 +28,7 @@ var quiz = new function Quiz(){
 		return questions[questionIndex];
 	}
 
-	function setupQuestion(oQuestion){
+	function displayQuestion(oQuestion){
 	    var choiceList = $("#choices").empty();
 	    if (oQuestion != null) {
 	        $("#question").text(oQuestion.question);
@@ -37,34 +37,57 @@ var quiz = new function Quiz(){
 	            choiceList.append(listItem);
 	        });
 	    }
-	    else {
-	       
-	    }
-	    setupAnimation();
+	    setupQuestionAnimation();
+	}
+
+	function setupQuestionAnimation(){
+		$("#question").hide().fadeIn();
+		$("#choices").find(".choice").each(function(index,item){
+			$(item).hide().delay(100*index).fadeIn();
+		});
 	}
 
 	function selectAnswer(){
 		var oCurrentQuestion = getQuestion(questionIndex),
-			oNextQuestion = getQuestion(++questionIndex);
+			oNextQuestion = getQuestion(++questionIndex),
+			checkIcon = $('<i class="fa fa-check"></i>'),
+			timesIcon = $('<i class="fa fa-times"></i>');
 		
 		//check answer
 		if($(this).index() === oCurrentQuestion.answer){
 		    //increase score
 		    $("#score").text(++scoreCount + " of " + questionCount + " correct");
-			//Show indicator
-			
+			//show indicator
+			showIndicator(checkIcon);
 		}
 		else{
 			//show indicator
+			showIndicator(timesIcon);
 		}
 		if(questionIndex >= questionCount){
-			//Quiz completed
+			//quiz completed
 			showFinalScore();
 		}
 		else{
 			//setup next question
-			setupQuestion(oNextQuestion);
+			displayQuestion(oNextQuestion);
 		}
+	}
+
+	function showIndicator(icon) {
+	   icon.animate({
+	            opacity : 0, 
+	            fontSize: 1000
+	        }, 
+	        1000, 
+	        function() { icon.remove() });
+		$("#score").append(icon);
+	}
+
+	function showFinalScore(){
+	    $("#final-score").text("You got " + scoreCount + " out of " + questionCount + "!");
+	    $("#quiz-container").hide();
+	    $("#final-score-container").show();
 	}
 
 	function Question(question, choices, answer){
@@ -73,21 +96,3 @@ var quiz = new function Quiz(){
 		this.answer = answer;
 	}
 };
-
-
-function showFinalScore(){
-	var finalScoreDiv = $("#final-score");
-        finalScoreDiv.text("You got " + $("#score").text() + "!");
-        $("#quiz-container").hide();
-        $("#final-score-container").show();
-}
-
-function setupAnimation(){
-	$("#question").hide().fadeIn();
-	$("#choices").find(".choice").each(function(index,item){
-		$(item).hide().delay(100*index).fadeIn();
-	});
-}
-
-
-

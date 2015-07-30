@@ -37,6 +37,25 @@ h1{
 	min-height: 575px;
 }
 
+#choices{
+	list-style-type: none;
+	padding-left: 0;
+}
+
+#choices li{
+	width: 50%;
+	border:1px solid #3cafaa;
+	padding:15px;
+	margin: 30px auto;
+	min-width:300px;
+	cursor: pointer; 
+	min-height: 61px;
+}
+
+#choices li:hover{
+	border-color:#e9765b;
+}
+
 #score{
 	padding:15px 0;
 	background-color: #393536;
@@ -61,28 +80,8 @@ h1{
     font-size:1.25rem;
 }
 
-#restart-button:hover{
-    
+#restart-button:hover{ 
     color:#fccc60;
-}
-
-#choices{
-	list-style-type: none;
-	padding-left: 0;
-}
-
-#choices li{
-	width: 50%;
-	border:1px solid #3cafaa;
-	padding:15px;
-	margin: 30px auto;
-	min-width:300px;
-	cursor: pointer; 
-	min-height: 61px;
-}
-
-#choices li:hover{
-	border-color:#e9765b;
 }
 
 .blue, .yellow, .red {
@@ -92,7 +91,7 @@ h1{
     width: 33.33333%;
  }
 
- .blue {
+.blue {
     background: #3eaca9;
 }
 
@@ -102,4 +101,18 @@ h1{
 
 .yellow {
     background: #fccc60;
+}
+
+.fa-check{
+	color:#00B71A;
+	position:fixed;
+	width:100%;
+	left:0;
+}
+
+.fa-times{
+	color:#AF2815;
+	position:fixed;
+	width:100%;
+	left:0;
 }
