@@ -66,7 +66,7 @@ var quiz = new function Quiz(){
 		}
 		if(questionIndex >= questionCount){
 			//quiz completed
-			showFinalScore();
+			setTimeout(showFinalScore, 1000);
 		}
 		else{
 			//setup next question
